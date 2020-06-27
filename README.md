@@ -1,16 +1,13 @@
 # todo_test
 
-A new Flutter project.
+A Flutter project for a task scheduler app based on deadlines scheduling 
+where task are organised based on priority and deadline as 
+users are asked to add a task with the time before it must be completed and then add a priority 
+and time duration to the task, those tasks are then scheduled by an algorithm which provides a time limit window 
+for user to complete the task and reminding them when the time window arrives, thus giving user 
+freedom from worrying about the task and when they should start working on it.
 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
