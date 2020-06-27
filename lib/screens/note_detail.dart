@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_test/models/note.dart';
 import 'package:todo_test/utils/database_helper.dart';
 import 'package:intl/intl.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 class NoteDetail extends StatefulWidget {
   final String appBarTitle;
@@ -131,7 +132,38 @@ class NoteDetailState extends State<NoteDetail> {
                             borderRadius: BorderRadius.circular(50.0))),
                   ),
                 ),
-
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                  child: DateTimeField(
+                    format: DateFormat.MMMMEEEEd(),
+                    decoration: InputDecoration(
+                        labelText: 'Pick the Deadline',
+                        contentPadding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        labelStyle: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(50.0))),
+                    onShowPicker: (context, currentValue) async {
+                      final date = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime(1900),
+                          initialDate: currentValue ?? DateTime.now(),
+                          lastDate: DateTime(2100));
+                      if (date != null) {
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.fromDateTime(
+                              currentValue ?? DateTime.now()),
+                        );
+                        return DateTimeField.combine(date, time);
+                      } else {
+                        return currentValue;
+                      }
+                    },
+                  ),
+                ),
                 // Third Element
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 305.0),
