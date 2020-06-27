@@ -42,6 +42,8 @@ class NoteDetailState extends State<NoteDetail> {
           moveToLastScreen();
         },
         child: Scaffold(
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               setState(() {

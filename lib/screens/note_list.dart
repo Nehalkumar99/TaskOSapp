@@ -48,6 +48,7 @@ class NoteListState extends State<NoteList> {
           ),
           backgroundColor: Color(0xfff3f3f5)),
       body: getNoteListView(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint('FAB clicked');
