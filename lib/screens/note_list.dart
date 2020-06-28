@@ -52,7 +52,14 @@ class NoteListState extends State<NoteList> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint('FAB clicked');
-          navigateToDetail(Note('', '', 2), 'Add Note');
+
+          navigateToDetail(
+              Note(
+                '',
+                '',
+                2,
+              ),
+              'Add Note');
         },
         tooltip: 'Add Note',
         child: Icon(Icons.add),
@@ -81,7 +88,20 @@ class NoteListState extends State<NoteList> {
               this.noteList[position].title,
               style: titleStyle,
             ),
-            subtitle: Text(this.noteList[position].date),
+            subtitle: Column(
+              children: <Widget>[
+                Text(
+                  'Saved - ' + this.noteList[position].date,
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  'Deadline\n' + this.noteList[position].deadline,
+                  style: TextStyle(
+                      color: Colors.teal, fontWeight: FontWeight.w600),
+                )
+              ],
+            ),
             trailing: GestureDetector(
               child: Icon(
                 Icons.delete,

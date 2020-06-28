@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:todo_test/models/note.dart';
 import 'package:todo_test/utils/database_helper.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:flutter_duration_picker/flutter_duration_picker.dart';
 
 class NoteDetail extends StatefulWidget {
   final String appBarTitle;
@@ -27,6 +29,8 @@ class NoteDetailState extends State<NoteDetail> {
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  TextEditingController taskDurationController = TextEditingController();
+  TextEditingController deadlineController = TextEditingController();
 
   NoteDetailState(this.note, this.appBarTitle);
 
@@ -36,6 +40,7 @@ class NoteDetailState extends State<NoteDetail> {
 
     titleController.text = note.title;
     descriptionController.text = note.description;
+    deadlineController.text = note.deadline;
 
     return WillPopScope(
         onWillPop: () {
@@ -132,10 +137,13 @@ class NoteDetailState extends State<NoteDetail> {
                             borderRadius: BorderRadius.circular(50.0))),
                   ),
                 ),
+
+                //datetime picker
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: DateTimeField(
-                    format: DateFormat.MMMMEEEEd(),
+                    controller: deadlineController,
+                    format: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
                     decoration: InputDecoration(
                         labelText: 'Pick the Deadline',
                         contentPadding: EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -157,19 +165,47 @@ class NoteDetailState extends State<NoteDetail> {
                           initialTime: TimeOfDay.fromDateTime(
                               currentValue ?? DateTime.now()),
                         );
+                        updateDeadline(DateTimeField.combine(date, time));
                         return DateTimeField.combine(date, time);
                       } else {
+                        updateDeadline(currentValue);
                         return currentValue;
                       }
                     },
                   ),
                 ),
+
                 // Third Element
+                Padding(
+                    padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                    child: Column(
+                      children: <Widget>[
+                        Text('Enter the duration for task'),
+                        FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () async {
+                            Duration resultingDuration =
+                                await showDurationPicker(
+                              context: context,
+                              initialTime: new Duration(minutes: 30),
+                            );
+                            // Scaffold.of(context).showSnackBar(new SnackBar(
+                            //     content: new Text(
+                            //         "Chose duration: $resultingDuration")));
+                          },
+                          tooltip: 'Popup Duration Picker',
+                          child: new Icon(Icons.timer),
+                        )
+                      ],
+                    )),
+
+                //description field
                 Padding(
                   padding: EdgeInsets.only(top: 15.0, bottom: 305.0),
                   child: TextField(
                     maxLines: null,
                     //expands: true,
+                    controller: descriptionController,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     onChanged: (value) {
                       debugPrint('Something changed in Description Text Field');
@@ -225,6 +261,12 @@ class NoteDetailState extends State<NoteDetail> {
   // Update the title of Note object
   void updateTitle() {
     note.title = titleController.text;
+  }
+
+  void updateDeadline(DateTime enteredDeadline) {
+    String formattedDate =
+        DateFormat("EEEE, MMMM d, yyyy 'at' h:mma").format(enteredDeadline);
+    note.deadline = formattedDate;
   }
 
   // Update the description of Note object
