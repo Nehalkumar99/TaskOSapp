@@ -6,6 +6,7 @@ import 'package:todo_test/utils/database_helper.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter_duration_picker/flutter_duration_picker.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 
 class NoteDetail extends StatefulWidget {
   final String appBarTitle;
@@ -22,6 +23,8 @@ class NoteDetail extends StatefulWidget {
 class NoteDetailState extends State<NoteDetail> {
   static var _priorities = ['High', 'Low'];
 
+  Duration _duration = Duration(hours: 0, minutes: 0);
+
   DatabaseHelper helper = DatabaseHelper();
 
   String appBarTitle;
@@ -29,7 +32,7 @@ class NoteDetailState extends State<NoteDetail> {
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController taskDurationController = TextEditingController();
+  TextEditingController durationController = TextEditingController();
   TextEditingController deadlineController = TextEditingController();
 
   NoteDetailState(this.note, this.appBarTitle);
@@ -41,6 +44,7 @@ class NoteDetailState extends State<NoteDetail> {
     titleController.text = note.title;
     descriptionController.text = note.description;
     deadlineController.text = note.deadline;
+    durationController.text = note.duration;
 
     return WillPopScope(
         onWillPop: () {
@@ -175,28 +179,39 @@ class NoteDetailState extends State<NoteDetail> {
                   ),
                 ),
 
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: new Expanded(
+                      // Use it from the context of a stateful widget, passing in
+                      // and saving the duration as a state variable.
+                      child: DurationPicker(
+                    duration: _duration,
+                    onChange: (val) {
+                      this.setState(() => _duration = val);
+
+                      var d = _duration.toString();
+                      updateDuration(d);
+                    },
+                    snapToMins: 5.0,
+                  )),
+                ),
+
                 // Third Element
                 Padding(
                     padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
-                    child: Column(
-                      children: <Widget>[
-                        Text('Enter the duration for task'),
-                        FloatingActionButton(
-                          heroTag: null,
-                          onPressed: () async {
-                            Duration resultingDuration =
-                                await showDurationPicker(
-                              context: context,
-                              initialTime: new Duration(minutes: 30),
-                            );
-                            // Scaffold.of(context).showSnackBar(new SnackBar(
-                            //     content: new Text(
-                            //         "Chose duration: $resultingDuration")));
-                          },
-                          tooltip: 'Popup Duration Picker',
-                          child: new Icon(Icons.timer),
-                        )
-                      ],
+                    child: TextField(
+                      controller: durationController,
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                      decoration: InputDecoration(
+                          labelText: 'Duration',
+                          contentPadding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                          labelStyle: TextStyle(
+                              color: Colors.black45,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(50.0))),
                     )),
 
                 //description field
@@ -272,6 +287,10 @@ class NoteDetailState extends State<NoteDetail> {
   // Update the description of Note object
   void updateDescription() {
     note.description = descriptionController.text;
+  }
+
+  void updateDuration(String d) {
+    note.duration = d;
   }
 
   // Save data to database

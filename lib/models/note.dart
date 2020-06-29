@@ -5,12 +5,13 @@ class Note {
   String _date;
   int _priority;
   String _deadline;
+  String _duration;
 
   Note(this._title, this._date, this._priority,
-      [this._deadline, this._description]);
+      [this._deadline, this._description, this._duration]);
 
   Note.withId(this._id, this._title, this._date, this._priority,
-      [this._deadline, this._description]);
+      [this._deadline, this._description, this._duration]);
 
   int get id => _id;
 
@@ -23,6 +24,8 @@ class Note {
   String get date => _date;
 
   String get deadline => _deadline;
+
+  String get duration => _duration;
 
   set title(String newTitle) {
     if (newTitle.length <= 255) {
@@ -50,6 +53,10 @@ class Note {
     this._deadline = newDeadline;
   }
 
+  set duration(String newDuration) {
+    this._duration = newDuration;
+  }
+
   // Convert a Note object into a Map object
   Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
@@ -61,6 +68,7 @@ class Note {
     map['priority'] = _priority;
     map['date'] = _date;
     map['deadline'] = _deadline;
+    map['duration'] = _duration;
 
     return map;
   }
@@ -73,5 +81,6 @@ class Note {
     this._priority = map['priority'];
     this._date = map['date'];
     this._deadline = map['deadline'];
+    this._duration = map['duration'];
   }
 }
