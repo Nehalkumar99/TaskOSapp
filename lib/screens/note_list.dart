@@ -93,13 +93,23 @@ class NoteListState extends State<NoteList> {
                 Text(
                   'Saved - ' + this.noteList[position].date,
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w600),
+                      color: Colors.blueGrey, fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  'Deadline\n' + this.noteList[position].deadline,
+                  'Task Duration\n' + this.noteList[position].duration,
+                  style: TextStyle(
+                      color: Colors.black45, fontWeight: FontWeight.w600),
+                ),
+                Text(
+                  'Deadline',
                   style: TextStyle(
                       color: Colors.teal, fontWeight: FontWeight.w600),
-                )
+                ),
+                Text(
+                  this.noteList[position].deadline,
+                  style: TextStyle(
+                      color: Colors.teal, fontWeight: FontWeight.w600),
+                ),
               ],
             ),
             trailing: GestureDetector(

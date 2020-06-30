@@ -132,10 +132,13 @@ class NoteDetailState extends State<NoteDetail> {
                     },
                     decoration: InputDecoration(
                         labelText: 'Title',
-                        contentPadding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        // hintText: "Enter the Title",
+
+                        contentPadding:
+                            EdgeInsets.only(top: 20, bottom: 20, left: 20),
                         labelStyle: TextStyle(
                             color: Colors.black45,
-                            fontSize: 12,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50.0))),
@@ -149,11 +152,11 @@ class NoteDetailState extends State<NoteDetail> {
                     controller: deadlineController,
                     format: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
                     decoration: InputDecoration(
-                        labelText: 'Pick the Deadline',
-                        contentPadding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        labelText: 'Deadline',
+                        contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                         labelStyle: TextStyle(
                             color: Colors.black45,
-                            fontSize: 12,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50.0))),
@@ -180,39 +183,48 @@ class NoteDetailState extends State<NoteDetail> {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: new Expanded(
-                      // Use it from the context of a stateful widget, passing in
-                      // and saving the duration as a state variable.
-                      child: DurationPicker(
-                    duration: _duration,
-                    onChange: (val) {
-                      this.setState(() => _duration = val);
-
-                      var d = _duration.toString();
-                      updateDuration(d);
-                    },
-                    snapToMins: 5.0,
-                  )),
-                ),
-
-                // Third Element
-                Padding(
                     padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                     child: TextField(
                       controller: durationController,
+                      onChanged: (value) {},
+                      onSubmitted: (value) {},
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                       decoration: InputDecoration(
-                          labelText: 'Duration',
-                          contentPadding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                          hintText: "Pick duration from dial below",
+                          hintStyle: TextStyle(
+                              color: Colors.black45,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400),
+                          labelText: 'Task Duration',
+                          contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                           labelStyle: TextStyle(
                               color: Colors.black45,
-                              fontSize: 12,
+                              fontSize: 14,
                               fontWeight: FontWeight.w400),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(50.0))),
                     )),
+
+                Card(
+                  margin:
+                      EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                  elevation: 10,
+                  child: Container(
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    child: DurationPicker(
+                      duration: _duration,
+                      onChange: (val) {
+                        this.setState(() => _duration = val);
+
+                        var d = _duration.toString();
+                        updateDuration(d);
+                      },
+                      snapToMins: 1,
+                    ),
+                  ),
+                ),
+                // Third Element
 
                 //description field
                 Padding(
@@ -228,7 +240,7 @@ class NoteDetailState extends State<NoteDetail> {
                     },
                     decoration: InputDecoration(
                         labelText: 'Description',
-                        contentPadding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                        contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                         labelStyle: TextStyle(
                             color: Colors.black45,
                             fontSize: 12,
@@ -279,9 +291,13 @@ class NoteDetailState extends State<NoteDetail> {
   }
 
   void updateDeadline(DateTime enteredDeadline) {
-    String formattedDate =
-        DateFormat("EEEE, MMMM d, yyyy 'at' h:mma").format(enteredDeadline);
-    note.deadline = formattedDate;
+    if (enteredDeadline == null) {
+      enteredDeadline = new DateTime.now();
+    } else {
+      String formattedDate =
+          DateFormat("EEEE, MMMM d, yyyy 'at' h:mma").format(enteredDeadline);
+      note.deadline = formattedDate;
+    }
   }
 
   // Update the description of Note object
