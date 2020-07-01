@@ -58,6 +58,7 @@ class NoteDetailState extends State<NoteDetail> {
             onPressed: () {
               setState(() {
                 debugPrint("Save button clicked");
+
                 _save();
               });
             },

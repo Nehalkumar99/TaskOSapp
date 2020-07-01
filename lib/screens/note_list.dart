@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:todo_test/models/note.dart';
 import 'package:todo_test/utils/database_helper.dart';
@@ -43,8 +44,8 @@ class NoteListState extends State<NoteList> {
           iconTheme: IconThemeData(color: Colors.black38),
           elevation: 20,
           title: Text(
-            'PRODMAX',
-            style: TextStyle(color: Colors.black54, fontSize: 14),
+            'TaskOS',
+            style: TextStyle(color: Colors.black54, fontSize: 18),
           ),
           backgroundColor: Color(0xfff3f3f5)),
       body: getNoteListView(),
