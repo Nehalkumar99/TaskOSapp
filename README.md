@@ -1,4 +1,4 @@
-# todo_test
+# TaskOS
 
 A Flutter project for a task scheduler app based on deadlines scheduling 
 where task are organised based on priority and deadline as 
