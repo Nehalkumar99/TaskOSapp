@@ -1,6 +1,6 @@
 # TaskOS
 
-A Flutter project for a task scheduler app based on deadlines scheduling 
+A Flutter android project for a task scheduler app based on deadlines scheduling 
 where task are organised based on priority and deadline.
 
 Users are asked to add a task with the time before it must be completed and add a priority and time duration to the task.
